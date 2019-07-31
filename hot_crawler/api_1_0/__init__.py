@@ -1,4 +1,5 @@
 from flask import Blueprint
+from ..utils import get_redis
 
 api = Blueprint('api', __name__)
 
@@ -10,6 +11,7 @@ def record_params(setup_state):
     # api.config = {}
     app = setup_state.app
     api.logger = app.logger
+    api.redis_con = get_redis(app.config.get('REDIS_HOST'), app.config.get('REDIS_PORT'))
     # api.config = dict([(key, value) for (key, value) in dict(app.config).items()])
 
 
@@ -20,3 +22,4 @@ def after_request(response):
     if response.headers.get("Content-Type").startswith("text"):
         response.headers["Content-Type"] = "application/json"
     return response
+

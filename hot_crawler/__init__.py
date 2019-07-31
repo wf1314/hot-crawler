@@ -3,10 +3,18 @@ import logging
 from flask import Flask
 from config import config_dict
 from .api_1_0 import api
+from .static_html import static_request
+from .utils import RegexConverter
+
 from logging.handlers import RotatingFileHandler
 
 
 def init_log(app):
+    """
+    初始化日志
+    :param app:
+    :return:
+    """
     config = app.config
     log_dir = config['LOGGER_DIR'] if config.get('LOGGER_DIR') else '/tmp/hot_crawler/'
     log_level = config['LOGGER_LEVEL'] if config.get('LOGGER_LEVEL') else 'INFO'
@@ -20,15 +28,19 @@ def init_log(app):
 
 
 def create_app(mode='official'):
+    """
+
+    :param mode:
+    :return:
+    """
+    global redis_con
     # 创建app对象
     app = Flask(__name__)
     # 加载配置项
     app.config.from_object(config_dict[mode])
+    app.url_map.converters['re'] = RegexConverter
     app.register_blueprint(api, url_prefix='/api/v1_0')
+    app.register_blueprint(static_request)
     init_log(app)
-    # 添加自定义转换器
-    # app.url_map.converters['re'] = RegexConverter
-    # 创建redis数据库操作对象
-    # redis_store = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT)
     return app
 
