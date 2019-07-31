@@ -17,6 +17,8 @@ def init_log(app):
     """
     config = app.config
     log_dir = config['LOGGER_DIR'] if config.get('LOGGER_DIR') else '/tmp/hot_crawler/'
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
     log_level = config['LOGGER_LEVEL'] if config.get('LOGGER_LEVEL') else 'INFO'
     app.logger.setLevel(getattr(logging, log_level))
     log_file = os.path.join(log_dir, 'log.log')
