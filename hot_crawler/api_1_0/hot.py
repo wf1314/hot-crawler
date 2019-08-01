@@ -6,14 +6,14 @@ from hot_crawler.hot_spider import zhihu_hot
 from threading import Thread
 
 
-def cache_zhihu_hot(api):
+def cache_hot(api, fuc, key):
     """
     缓存知乎热榜信息
     :param api:
     :return:
     """
     try:
-        result = zhihu_hot()
+        result = fuc()
         output = {
             'code': 0,
             'msg': '成功',
@@ -23,11 +23,11 @@ def cache_zhihu_hot(api):
         api.logger.error(e)
         output = {
             'code': 1111,
-            'msg': '获取知乎热榜失败',
+            'msg': '获取热榜失败',
             'data': [],
         }
     output = json.dumps(output)
-    api.redis_con.set('zhihu', output, ex='600')  # 缓存600s
+    api.redis_con.set(key, output, ex='600')  # 缓存600s
 
 
 @api.route('/zhihu')
