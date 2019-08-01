@@ -41,7 +41,7 @@ class HotSpider(object):
         :return:
         """
         url = 'https://v2ex.com/?tab=hot'
-        r = requests.get(url)
+        r = requests.get(url, headers=self.headers)
         doc = etree.HTML(r.text)
         output = []
         for div in doc.xpath('.//div[@class="cell item"]'):
@@ -64,26 +64,27 @@ class HotSpider(object):
         :return:
         """
         url = 'https://s.weibo.com/top/summary?cate=realtimehot'
-        r = requests.get(url)
+        r = requests.get(url, headers=self.headers)
         doc = etree.HTML(r.text)
         output = []
-        for div in doc.xpath('.//td[@class="td-02"]'):
-            affair = html.xpath('//td[@class="td-02"]/a/text()')[0]
-            Url = html.xpath('//td[@class="td-02"]/a/@href')[0]
-            view = html.xpath('//td[@class="td-02"]/span/text()')
+
+        for div in doc.xpath('//div[@id="pl_top_realtimehot"]//table/tbody/tr'):
+            title = div.xpath('./td[@class="td-02"]/a/text()')[0]
+            url = 'https://s.weibo.com' + div.xpath('./td[@class="td-02"]/a/@href')[0]
+            metrics = div.xpath('./td[@class="td-02"]/span/text()')
+            metrics = metrics[0] if metrics else ''
             d = {
-                'title': affair,
+                'title': title,
                 'excerpt': "",
-                'metrics': "",
-                'link': Url,
+                'metrics': metrics,
+                'link': url,
                 'image': "",
             }
             output.append(d)
         return output
-        # print(output)
 
 
 if __name__ == '__main__':
     # zhihu_hot()
     hot = HotSpider()
-    hot.v2ex()
+    hot.weibo()

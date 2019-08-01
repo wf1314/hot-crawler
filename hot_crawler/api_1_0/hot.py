@@ -5,14 +5,14 @@ from flask import jsonify
 from threading import Thread
 
 
-def cache_hot(api, fuc, key):
+def cache_hot(api, spider_fuc, key):
     """
     缓存热榜信息
     :param api:
     :return:
     """
     try:
-        result = fuc()
+        result = spider_fuc()
         output = {
             'code': 0,
             'msg': '成功',
