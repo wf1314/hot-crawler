@@ -36,7 +36,6 @@ def get_hot_lists(key):
     http://127.0.0.1:5000/api/v1_0/zhihu
     :return:
     """
-    cache_hot = globals()['cache_hot']
     if not hasattr(api.hot_spider, key):
         return '', 404
     spider_func = getattr(api.hot_spider, key)
