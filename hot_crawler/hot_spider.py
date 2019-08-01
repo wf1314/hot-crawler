@@ -59,6 +59,47 @@ class HotSpider(object):
         return output
 
 
+    def weibo_hot(self) -> list:
+        """
+        微博热搜爬取
+        :return:
+        """
+        url = 'https://s.weibo.com/top/summary?cate=realtimehot'
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) '
+                          'Chrome/75.0.3770.142 Safari/537.36',
+        }
+        output = []
+        html = etree.HTML(requests.get(url, headers=headers).text)
+        affair = html.xpath('//td[@class="td-02"]/a/text()')
+        Url = html.xpath('//td[@class="td-02"]/a/@href')
+        for i in range(0, len(Url)):
+            Url[i] = "https://s.weibo.com" + Url[i]
+
+        view = html.xpath('//td[@class="td-02"]/span/text()')
+        d = {
+            'title': affair[0],
+            'excerpt': "",
+            'metrics': "置顶",
+            'link': Url[0],
+            'image': "",
+        }
+        output.append(d)
+        affair = affair[1:]
+        Url = Url[1:]
+        for o in range(0, len(affair)):
+            d = {
+                'title': affair[o],
+                'excerpt': "",
+                'metrics': view[o],
+                'link': Url[o],
+                'image': "",
+            }
+            output.append(d)
+        return output
+        # print(output)
+
+
 if __name__ == '__main__':
     # zhihu_hot()
     hot = HotSpider()
