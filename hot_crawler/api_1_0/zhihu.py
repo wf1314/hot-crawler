@@ -2,7 +2,7 @@ import json
 import time
 from . import api
 from flask import jsonify
-from hot_crawler.spider.zhihu_spider import zhihu_hot
+from hot_crawler.hot_spider import zhihu_hot
 from threading import Thread
 
 

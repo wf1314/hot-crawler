@@ -3,10 +3,10 @@ from ..utils import get_redis
 
 api = Blueprint('api', __name__)
 
-from . import zhihu
+from . import *
 
 
-@api.record
+@api.record_once
 def record_params(setup_state):
     # api.config = {}
     app = setup_state.app
