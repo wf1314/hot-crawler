@@ -68,13 +68,13 @@ class HotSpider(object):
         doc = etree.HTML(r.text)
         output = []
         for div in doc.xpath('.//td[@class="td-02"]'):
-            affair = html.xpath('//td[@class="td-02"]/a/text()')[0]
-            Url = html.xpath('//td[@class="td-02"]/a/@href')[0]
-            view = html.xpath('//td[@class="td-02"]/span/text()')
+            affair = div.xpath('//td[@class="td-02"]/a/text()')[0]
+            Url = div.xpath('//td[@class="td-02"]/a/@href')[0]
+            view = div.xpath('//td[@class="td-02"]/span/text()')[0]
             d = {
                 'title': affair,
                 'excerpt': "",
-                'metrics': "",
+                'metrics': view,
                 'link': Url,
                 'image': "",
             }
