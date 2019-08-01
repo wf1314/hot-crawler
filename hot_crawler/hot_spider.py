@@ -44,7 +44,7 @@ class HotSpider(object):
         r = requests.get(url, headers=self.headers)
         doc = etree.HTML(r.text)
         output = []
-        for div in doc.xpath('.//div[@class="cell item"]'):
+        for div in doc.xpath('//div[@class="cell item"]'):
             title = div.xpath('.//span[@class="item_title"]/a/text()')[0]
             link = div.xpath('.//span[@class="item_title"]/a/@href')[0]
             metrics = div.xpath('.//a[@class="count_livid"]/text()')[0]
