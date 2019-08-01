@@ -59,7 +59,7 @@ class HotSpider(object):
         return output
 
 
-    def weibo_hot(self) -> list:
+    def weibo(self) -> list:
         """
         微博热搜爬取
         :return:
@@ -73,14 +73,14 @@ class HotSpider(object):
         html = etree.HTML(requests.get(url, headers=headers).text)
         affair = html.xpath('//td[@class="td-02"]/a/text()')
         Url = html.xpath('//td[@class="td-02"]/a/@href')
-        for i in range(0, len(Url)):
-            Url[i] = "https://s.weibo.com" + Url[i]
+
+        Url[0] = "https://s.weibo.com" + Url[0]
 
         view = html.xpath('//td[@class="td-02"]/span/text()')
         d = {
             'title': affair[0],
             'excerpt': "",
-            'metrics': "置顶",
+            'metrics': "",
             'link': Url[0],
             'image': "",
         }
@@ -88,6 +88,8 @@ class HotSpider(object):
         affair = affair[1:]
         Url = Url[1:]
         for o in range(0, len(affair)):
+            Url[o] = "https://s.weibo.com" + Url[o]
+
             d = {
                 'title': affair[o],
                 'excerpt': "",
