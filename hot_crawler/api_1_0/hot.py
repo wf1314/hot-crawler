@@ -2,13 +2,12 @@ import json
 import time
 from . import api
 from flask import jsonify
-from hot_crawler.hot_spider import zhihu_hot
 from threading import Thread
 
 
 def cache_hot(api, fuc, key):
     """
-    缓存知乎热榜信息
+    缓存热榜信息
     :param api:
     :return:
     """
@@ -30,20 +29,26 @@ def cache_hot(api, fuc, key):
     api.redis_con.set(key, output, ex='600')  # 缓存600s
 
 
-@api.route('/zhihu')
-def zhihu():
+@api.route('/<re(".*"):key>')
+def get_hot_lists(key):
     """
     知乎热榜api
     http://127.0.0.1:5000/api/v1_0/zhihu
     :return:
     """
-    t1 = Thread(target=cache_zhihu_hot, args=(api, ))
+    cache_hot = globals()['cache_hot']
+    if not hasattr(api.hot_spider, key):
+        return '', 404
+    spider_func = getattr(api.hot_spider, key)
+    t1 = Thread(target=cache_hot, args=(api, spider_func, key))
     t1.start()
     # 不等待执行结束即向下执行, 为了加快显示速度先忽略掉内容是否更新
     while True:
-        result = api.redis_con.get('zhihu')
+        result = api.redis_con.get(key)
         if not result:
             time.sleep(0.1)
             continue
         output = json.loads(result)
         return jsonify(output)
+
+
