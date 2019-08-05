@@ -41,10 +41,10 @@ class HotSpider(object):
         :return:
         """
         url = 'https://v2ex.com/?tab=hot'
-        r = requests.get(url)
+        r = requests.get(url, headers=self.headers)
         doc = etree.HTML(r.text)
         output = []
-        for div in doc.xpath('.//div[@class="cell item"]'):
+        for div in doc.xpath('//div[@class="cell item"]'):
             title = div.xpath('.//span[@class="item_title"]/a/text()')[0]
             link = div.xpath('.//span[@class="item_title"]/a/@href')[0]
             metrics = div.xpath('.//a[@class="count_livid"]/text()')[0]
@@ -64,23 +64,23 @@ class HotSpider(object):
         :return:
         """
         url = 'https://s.weibo.com/top/summary?cate=realtimehot'
-        r = requests.get(url)
+        r = requests.get(url, headers=self.headers)
         doc = etree.HTML(r.text)
         output = []
-        for div in doc.xpath('.//td[@class="td-02"]'):
-            affair = div.xpath('//td[@class="td-02"]/a/text()')[0]
-            Url = div.xpath('//td[@class="td-02"]/a/@href')[0]
-            view = div.xpath('//td[@class="td-02"]/span/text()')[0]
+        for div in doc.xpath('//div[@id="pl_top_realtimehot"]//table/tbody/tr'):
+            title = div.xpath('./td[@class="td-02"]/a/text()')[0]
+            url = 'https://s.weibo.com' + div.xpath('./td[@class="td-02"]/a/@href')[0]
+            metrics = div.xpath('./td[@class="td-02"]/span/text()')
+            metrics = metrics[0] if metrics else ''
             d = {
-                'title': affair,
+                'title': title,
                 'excerpt': "",
-                'metrics': view,
-                'link': Url,
+                'metrics': metrics,
+                'link': url,
                 'image': "",
             }
             output.append(d)
         return output
-        # print(output)
 
     def tianya(self) -> list:
         """
@@ -315,4 +315,4 @@ class HotSpider(object):
 if __name__ == '__main__':
     # zhihu_hot()
     hot = HotSpider()
-    hot.v2ex()
+    hot.weibo()
