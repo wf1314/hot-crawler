@@ -74,7 +74,7 @@
       }
     </style>
     <script type="text/javascript">
-        window.onload = function start() {
+        $(function start() {
                 $.ajax({
                     url: "/api/v1_0/forums",
                     type: "GET",
@@ -82,11 +82,36 @@
                     success: function(resp) {
                         $.each(resp, function (index, value) {
                             li = "<li class=\"forum_li\" value=\""+ value.code +"\">"+ value.name +"</li>";
+                            if(index == 0){
+                                li = "<li class=\"forum_li choose\" value=\""+ value.code +"\">"+ value.name +"</li>";
+                            };
                             $('.forum ul').append(li);
                         })
                     }
                 });
-            }
+            });
+        $(function first_display(){
+               var url = "/api/v1_0/zhihu";
+                $.ajax({
+                        url: url,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(resp) {
+                            if(resp.code==0){
+                                $(".hot a").remove()
+                               for ( i=0; i<resp.data.length; i++) {
+                                    var title = resp.data[i].title;
+                                    //var excerpt = data.data[i].excerpt;
+                                    //var metrics = data.data[i].metrics;
+                                    var link = resp.data[i].link;
+                                    //var image = data.data[i].image;
+                                    $("#hot").append("<a href='" + link+ "'>"+ i + '.' + title + "</div>");
+                         }
+                            }
+                        }
+
+            });
+        });
     </script>
   </head>
   <body style="background-color: #F5F5F5;margin: 0px;">
@@ -107,12 +132,9 @@
     </div>
     <!-- built files will be auto injected -->
     <script>
-        var _this = null;
+
        $(document).on("click", ".forum_li",function(){
-           if (_this != null){
-               _this.removeClass('choose')
-           }
-           _this = $(this);
+           $('.choose').removeClass('choose')
            $(this).addClass('choose');
            var url = "/api/v1_0/" + $(this).attr('value');
             $.ajax({
