@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>frontend</title>
+    <title>今日热点</title>
     <script src="/static/js/jquery.js"></script>
     <style type="text/css">
       .top{
@@ -105,7 +105,7 @@
                                     //var metrics = data.data[i].metrics;
                                     var link = resp.data[i].link;
                                     //var image = data.data[i].image;
-                                    $("#hot").append("<a href='" + link+ "'>"+ i + '.' + title + "</div>");
+                                    $("#hot").append("<a target=\"_blank\" href='" + link+ "'>"+ i + '.' + title + "</div>");
                          }
                             }
                         }
