@@ -1,15 +1,139 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>hot</title>
-</head>
-<script src="/static/js/jquery-min.js"></script>
-<script src="/static/js/index.js"></script>
-<body>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>frontend</title>
+    <script src="/static/js/jquery.js"></script>
+    <style type="text/css">
+      .top{
+        padding: 0px;
+        height: 50px;
+        background-color: #ffffff;
+        border-bottom: 1px solid #e8e8e8;
+        position:static;
+      }
+      .top-title{
+        color: #3676D9;
+        margin: 0px;
+        line-height: 50px;
+        text-align: center;
+        position:absolute;
+        left:150px;
 
+      }
+      .forum{
+        background: #ffffff;
+        height: 40px;
+        margin: 15px 150px;
+        margin-bottom: 0px;
+        border-bottom: 1px solid #e8e8e8;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+      .forum ul{
+        list-style: none;
+        color: #5D5665;
+        font-size: 16px;
+        float:left;
+        margin:0px 8px;
+        padding:0px;
+          display:inline;
+      }
+      .forum_li{
+        display:inline;
+        float:left;
+        margin: 10px 10px;
+        cursor: pointer;
+      }
+      .choose{
+          color: cornflowerblue;
+      }
+      .forum_li:hover{
+        color: #3676D9;
+      }
+      a{
+        text-decoration:none;
+        color:#000;
+        display: block;
+        float:left;
+        margin: 0px;
+        cursor: pointer;
+        background: #ffffff;
+        height: 40px;
+        width: 100%;
+        border-bottom: 1px solid #e8e8e8;
+        padding-left: 50px;
+        padding-right: 50px;
+        margin-left: 150px;
+        margin-right: 150px;
+          line-height: 40px;
+      }
+      .hot{
+        width: 945px;
+      }
+    </style>
+    <script type="text/javascript">
+        window.onload = function start() {
+                $.ajax({
+                    url: "/api/v1_0/forums",
+                    type: "GET",
+                    dataType: "json",
+                    success: function(resp) {
+                        $.each(resp, function (index, value) {
+                            li = "<li class=\"forum_li\" value=\""+ value.code +"\">"+ value.name +"</li>";
+                            $('.forum ul').append(li);
+                        })
+                    }
+                });
+            }
+    </script>
+  </head>
+  <body style="background-color: #F5F5F5;margin: 0px;">
+    <div id="app">
+        <div class="top">
+          <h2 class="top-title">今日热榜</h2>
+        </div>
+        <div class="content">
+            <div class="forum">
+              <ul>
+                  <li class="forum_li"></li>
+              </ul>
+            </div>
+            <div id="hot" class="hot">
 
-</body>
+            </div>
+        </div>
+    </div>
+    <!-- built files will be auto injected -->
+    <script>
+        var _this = null;
+       $(document).on("click", ".forum_li",function(){
+           if (_this != null){
+               _this.removeClass('choose')
+           }
+           _this = $(this);
+           $(this).addClass('choose');
+           var url = "/api/v1_0/" + $(this).attr('value');
+            $.ajax({
+                    url: url,
+                    type: "GET",
+                    dataType: "json",
+                    success: function(resp) {
+                        if(resp.code==0){
+                            $(".hot a").remove()
+                           for ( i=0; i<resp.data.length; i++) {
+                                var title = resp.data[i].title;
+                                //var excerpt = data.data[i].excerpt;
+                                //var metrics = data.data[i].metrics;
+                                var link = resp.data[i].link;
+                                //var image = data.data[i].image;
+                                $("#hot").append("<a href='" + link+ "'>"+ i + '.' + title + "</div>");
+                     }
+                        }
+                    }
+                });
+        });
+    </script>
+  </body>
 </html>

@@ -269,7 +269,7 @@ class HotSpider(object):
 
     def douban(self) -> list:
         """
-        豆瓣24小时话题
+        豆瓣
         :return:
         """
         url = 'https://www.douban.com/gallery/'
@@ -289,7 +289,7 @@ class HotSpider(object):
             output.append(d)
         return output
 
-    def wangyi(self) -> list:
+    def wangyinews(self) -> list:
         """
         网易新闻
         :return:

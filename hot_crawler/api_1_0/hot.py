@@ -37,7 +37,7 @@ def get_hot_lists(key):
     :return:
     """
     if not hasattr(api.hot_spider, key):
-        return '', 404
+        return '404 Not Found', 404
     spider_func = getattr(api.hot_spider, key)
     t1 = Thread(target=cache_hot, args=(api, spider_func, key))
     t1.start()
@@ -50,4 +50,24 @@ def get_hot_lists(key):
         output = json.loads(result)
         return jsonify(output)
 
+
+@api.route('/forums')
+def get_forum_names():
+    """
+    获取支持的论坛name
+    :return:
+    """
+    output = [
+        {'name': '知乎', 'code': 'zhihu'},
+        {'name': '微博', 'code': 'weibo'},
+        {'name': '百度贴吧', 'code': 'baidutieba'},
+        {'name': 'v2ex', 'code': 'v2ex'},
+        {'name': '天涯', 'code': 'tianya'},
+        {'name': '豆瓣', 'code': 'douban'},
+        {'name': '网易新闻', 'code': 'wangyinews'},
+        {'name': '煎蛋', 'code': 'jiandan'},
+        {'name': '黑客派', 'code': 'heikepai'},
+        {'name': 'ithome', 'code': 'ithome'},
+    ]
+    return jsonify(output)
 

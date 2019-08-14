@@ -1,6 +1,6 @@
 from flask import Blueprint
 from ..utils import get_redis
-from hot_crawler.hot_spider import HotSpider
+from ..hot_spider import HotSpider
 
 api = Blueprint('api', __name__)
 
