@@ -65,7 +65,7 @@ def get_forum_names():
         {'name': '天涯', 'code': 'tianya'},
         {'name': '豆瓣', 'code': 'douban'},
         {'name': '网易新闻', 'code': 'wangyinews'},
-        {'name': '煎蛋', 'code': 'jiandan'},
+        # {'name': '煎蛋', 'code': 'jiandan'},
         {'name': '黑客派', 'code': 'heikepai'},
         {'name': 'ithome', 'code': 'ithome'},
     ]
