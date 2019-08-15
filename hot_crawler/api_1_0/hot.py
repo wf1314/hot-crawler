@@ -26,7 +26,7 @@ def cache_hot(api, spider_fuc, key):
             'data': [],
         }
     output = json.dumps(output)
-    api.redis_con.set(key, output, ex='600')  # 缓存600s
+    api.redis_con.set(key, output, ex=str(60*60))  # 缓存1小时
 
 
 @api.route('/<re(".*"):key>')
@@ -67,7 +67,7 @@ def get_forum_names():
         {'name': '网易新闻', 'code': 'wangyinews'},
         # {'name': '煎蛋', 'code': 'jiandan'},
         {'name': '黑客派', 'code': 'heikepai'},
-        {'name': 'ithome', 'code': 'ithome'},
+        {'name': 'it之家', 'code': 'ithome'},
     ]
     return jsonify(output)
 
