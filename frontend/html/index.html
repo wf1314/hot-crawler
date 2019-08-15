@@ -69,6 +69,9 @@
         margin-right: 150px;
           line-height: 40px;
       }
+      a:hover{
+        color: #3676D9;
+      }
       .hot{
         width: 945px;
       }
@@ -105,7 +108,7 @@
                                     //var metrics = data.data[i].metrics;
                                     var link = resp.data[i].link;
                                     //var image = data.data[i].image;
-                                    $("#hot").append("<a target=\"_blank\" href='" + link+ "'>"+ i + '.' + title + "</div>");
+                                    $("#hot").append("<a target='_blank' href='" + link+ "'>"+ i + '.' + title + "</a>");
                          }
                             }
                         }
@@ -134,7 +137,8 @@
     <script>
 
        $(document).on("click", ".forum_li",function(){
-           $('.choose').removeClass('choose')
+           $('.choose').removeClass('choose');
+           $(".hot a").remove();
            $(this).addClass('choose');
            var url = "/api/v1_0/" + $(this).attr('value');
             $.ajax({
@@ -143,14 +147,14 @@
                     dataType: "json",
                     success: function(resp) {
                         if(resp.code==0){
-                            $(".hot a").remove()
+
                            for ( i=0; i<resp.data.length; i++) {
                                 var title = resp.data[i].title;
                                 //var excerpt = data.data[i].excerpt;
                                 //var metrics = data.data[i].metrics;
                                 var link = resp.data[i].link;
                                 //var image = data.data[i].image;
-                                $("#hot").append("<a href='" + link+ "'>"+ i + '.' + title + "</div>");
+                                $("#hot").append("<a target='_blank' href='" + link+ "'>"+ i + '.' + title + "</div>");
                      }
                         }
                     }
