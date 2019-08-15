@@ -1,4 +1,11 @@
-
+from flask_script import Manager
 from hot_crawler import create_app
 
-create_app().run('0.0.0.0')
+app = create_app()
+# configure your app
+
+manager = Manager(app)
+
+if __name__ == "__main__":
+    manager.run()
+

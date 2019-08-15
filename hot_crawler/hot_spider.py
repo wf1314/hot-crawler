@@ -47,7 +47,8 @@ class HotSpider(object):
         for div in doc.xpath('//div[@class="cell item"]'):
             title = div.xpath('.//span[@class="item_title"]/a/text()')[0]
             link = div.xpath('.//span[@class="item_title"]/a/@href')[0]
-            metrics = div.xpath('.//a[@class="count_livid"]/text()')[0]
+            metrics = div.xpath('.//a[@class="count_livid"]/text()')
+            metrics = metrics[0] if metrics else '0'
             d = {
                 'title': title,
                 'excerpt': '',

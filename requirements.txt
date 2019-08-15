@@ -3,6 +3,7 @@ chardet==3.0.4
 Click==7.0
 cssselect==1.0.3
 Flask==1.1.1
+Flask-Script==2.0.6
 get==2019.4.13
 idna==2.8
 itsdangerous==1.1.0
